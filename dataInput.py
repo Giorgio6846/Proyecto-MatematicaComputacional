@@ -1,12 +1,5 @@
 import tkinter as tk
 
-
-
-global parentFrame
-
-def hederarFrame(WindowFrame):
-    parentFrame = WindowFrame.master
-
 def generateMatrix(WindowFrame, matrixData, entriesMatrix):
     mainWindow = WindowFrame.master
     

@@ -76,7 +76,7 @@ tk.Label(mainWindow, text = "Ingrese la informacion de la matriz", textvariable 
                     
 #Generacion de la matriz
 button = tk.Button(mainWindow, text="Generate Matrix", width=15,
-                   command=matrixDataControlller).place(x=260, y=40)
+                   command=matrixDataControlller).place(x=260, y= 0)
 
 
 
