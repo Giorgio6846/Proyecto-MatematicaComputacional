@@ -32,13 +32,15 @@ def showMatrix(sizeMatrix, WindowFrame, matrixData, entriesMatrix):
 
 def hideMatrix(WindowFrame, matrixData, entriesMatrix):
     mainWindow = WindowFrame.master
-    
+
     for indexRow in range(15):
         for indexColumn in range(15):
             entriesMatrix[indexRow][indexColumn].place_forget()
 
 #Ingreso de datos
 #Aleatorio
+#def dataRandom(sizeMatrix):
 
 
 #Manual
+#def dataManual(sizeMatrix):

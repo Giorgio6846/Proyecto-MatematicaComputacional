@@ -2,6 +2,7 @@ import tkinter as tk
 
 #Archivos adicionales
 import dataInput as dt
+import dataInputv2 as dt
 
 #Creacion del frame 
 global mainWindow
@@ -20,7 +21,7 @@ entriesMatrix = []
 mainWindow.title('Proyecto - Matematica Computacional - ( 2023 - 2 ) - Grupo 5 - Seccion SS41')
 mainWindow.geometry("800x600")
 mainWindow.resizable(False, False)
-
+mainWindow.config(background = 'grey')
 
 #Variables
 #sizeMatrix
@@ -29,6 +30,8 @@ sizeMatrix.set("0")
 #labelMatrix
 infMatrix = tk.StringVar()
 infMatrix.set("Ingrese la informacion de la matriz")
+#OpcionIngreso
+typeEntry = tk.StringVar()
 
 def verificacionSizeMatrix():
     # Output Data
@@ -68,17 +71,37 @@ def matrixDataControlller():
                       matrixData, entriesMatrix)
 
 #Ingreso datos tamaño matriz
-tk.Label(mainWindow, text = "Tamaño de la matriz: ").place(x = 0, y = 0)
-sizeMatrixEntry = tk.Entry(mainWindow, textvariable = sizeMatrix).place(x = 120, y = 0)
+#tk.Label(mainWindow, text = "Tamaño de la matriz:").place(x = 10, y = 10)
+#sizeMatrixEntry = tk.Entry(mainWindow, textvariable = sizeMatrix).place(x = 10, y = 40)
 
 #Informacion del dato ingresado
-tk.Label(mainWindow, text = "Ingrese la informacion de la matriz", textvariable = infMatrix).place(x = 0, y = 45)
+#tk.Label(mainWindow, text = "Status").place(x = 0, y = 80)
+
+#tk.Label(mainWindow, text = "Ingrese la informacion de la matriz", textvariable = infMatrix).place(x = 0, y = 100)
                     
-#Generacion de la matriz
-button = tk.Button(mainWindow, text="Generate Matrix", width=15,
-                   command=matrixDataControlller).place(x=260, y= 0)
+#button = tk.Button(mainWindow, text="Generate Matrix", width=15,
+#                   command=matrixDataControlller).place(x=260, y= 0)
 
+#Frames
+#Menu
+menuFrame = tk.Frame(mainWindow, width = 200, height = 200, bg = 'white')
+menuFrame.place(x = 20, y = 20)
 
+#SubMenu
+subMenuFrame = tk.Frame(mainWindow, width = 200, height = 340, bg = 'white')
+subMenuFrame.place(x = 20, y = 240)
+
+#Vista
+viewFrame = tk.Frame(mainWindow, width = 540, height = 560, bg = 'white')
+viewFrame.place(x = 240, y = 20)
+
+#Opciones de usuario
+buttonData = tk.Button(mainWindow, text="Ingreso datos", width=15,
+                   command=matrixDataControlller).place(x=30, y=20)
+buttonMatrix = tk.Button(mainWindow, text="Matriz de Caminos ", width=15,
+                   command=matrixDataControlller).place(x=30, y=40)
+buttonComponentesConexas = tk.Button(mainWindow, text="Componentes Conexas", width=15,
+                   command=matrixDataControlller).place(x=30, y=70)
 
 #Ejecucion applicacion
 mainWindow.mainloop()
