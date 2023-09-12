@@ -3,11 +3,11 @@ import tkinter as tk
 class matrizCaminos:
     global mainWindow
 
-    def __init__(self, WindowFrame):
-        mainWindow = WindowFrame
+    def __init__(self, Screen):
+        pass
+        
+    def show(self):
+        pass
 
-    #def show():
-    #    print()
-
-    #def hide():
-    #    print()
+    def hide(self):
+        pass

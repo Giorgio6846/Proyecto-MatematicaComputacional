@@ -5,6 +5,82 @@ import caminosMatriz as cm
 import componentesConexas as cc
 import dataInputv2 as dt
 
+global App
+App = tk.Tk()
+
+#Classes
+matrizCamino = cm.matrizCaminos(App)
+componenteConexa = cc.componentesConexas(App)
+dataInput = dt.dataInput(App)
+
+#Configuuracion de la ventana
+App.title('Proyecto - Matematica Computacional - ( 2023 - 2 ) - Grupo 5 - Seccion SS41')
+App.geometry("800x600")
+App.resizable(False, False)
+App.config(background = 'grey')   
+
+#Interface
+
+#Ingreso datos
+def dataInputInterface():
+    matrizCamino.hide()
+    componenteConexa.hide()
+    dataInput.show()
+
+#Matriz de Caminos
+def matrizCaminosInterface():
+    matrizCamino.show()
+    componenteConexa.hide()
+    dataInput.hide()
+
+#Componentes Conexas
+def componentesConexasInterface():
+    matrizCamino.hide()
+    componenteConexa.show()
+    dataInput.hide()
+
+#Frames
+#Menu
+menuFrame = tk.Frame(App, width=200, height=200, bg='white')
+menuFrame.place(x=20, y=20)
+
+#Opciones de usuario
+buttonData = tk.Button(App, text="Ingreso datos", width=15,
+                       command=dataInputInterface).place(x=30, y=40)
+buttonMatrix = tk.Button(App, text="Matriz de Caminos ", width=15,
+                        command=matrizCaminosInterface).place(x=30, y=40 + 30)
+buttonComponentesConexas = tk.Button(App, text="Componentes Conexas", width=15,
+                        command=componentesConexasInterface).place(x=30, y=40 + 60)
+
+#SubMenu
+subMenuFrame = tk.Frame(App, width = 200, height = 340, bg = 'white')
+subMenuFrame.place(x = 20, y = 240)
+
+#Vista
+viewFrame = tk.Frame(App, width = 540, height = 560, bg = 'white')
+viewFrame.place(x = 240, y = 20)
+
+
+
+App.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
 #Creacion del frame 
 global mainWindow
 mainWindow = tk.Tk()
@@ -131,3 +207,4 @@ viewFrame.place(x = 240, y = 20)
 
 #Ejecucion applicacion
 mainWindow.mainloop()
+"""
