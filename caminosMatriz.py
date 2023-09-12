@@ -1,7 +1,13 @@
 import tkinter as tk
 
-def showMatrizCaminos(WindowFrame):
-    print()
+class matrizCaminos:
+    global mainWindow
 
-def hideMatrizCaminos(WindowsFrame):
-    print()
+    def __init__(self, WindowFrame):
+        mainWindow = WindowFrame
+
+    #def show():
+    #    print()
+
+    #def hide():
+    #    print()

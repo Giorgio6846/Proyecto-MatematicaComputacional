@@ -1,7 +1,8 @@
 import tkinter as tk 
 
 #Archivos adicionales
-import dataInput as dt
+import caminosMatriz as cm 
+import componentesConexas as cc
 import dataInputv2 as dt
 
 #Creacion del frame 
@@ -16,6 +17,11 @@ matrixData = []
 #EntriesMatrix
 global entriesMatrix
 entriesMatrix = []
+
+#Classes
+matrizCamino = cm.matrizCaminos(mainWindow)
+componenteConexa = cc.componentesConexas(mainWindow)
+dataInput = dt.dataInput(mainWindow)
 
 #Configuracion del app
 mainWindow.title('Proyecto - Matematica Computacional - ( 2023 - 2 ) - Grupo 5 - Seccion SS41')
@@ -82,10 +88,38 @@ def matrixDataControlller():
 #button = tk.Button(mainWindow, text="Generate Matrix", width=15,
 #                   command=matrixDataControlller).place(x=260, y= 0)
 
+#Interface
+#Ingreso datos
+def dataInputInterface():
+    #matrizCamino.hide
+    #componenteConexa.hide
+
+    dataInput.show(sizeMatrix, infMatrix)
+
+#Matriz de Caminos
+def matrizCaminosInterface():
+    matrizCamino.show
+    componenteConexa.hide
+    dataInput.hide
+
+#Componentes Conexas
+def componentesConexasInterface():
+    matrizCamino.hide
+    componenteConexa.show
+    dataInput.hide
+
 #Frames
 #Menu
 menuFrame = tk.Frame(mainWindow, width = 200, height = 200, bg = 'white')
 menuFrame.place(x = 20, y = 20)
+
+#Opciones de usuario
+buttonData = tk.Button(mainWindow, text="Ingreso datos", width=15,
+                   command=dataInputInterface).place(x=30, y=40)
+buttonMatrix = tk.Button(mainWindow, text="Matriz de Caminos ", width=15,
+                   command=matrizCaminosInterface).place(x=30, y=40 + 30)
+buttonComponentesConexas = tk.Button(mainWindow, text="Componentes Conexas", width=15,
+                   command=componentesConexasInterface).place(x=30, y=40 + 60)
 
 #SubMenu
 subMenuFrame = tk.Frame(mainWindow, width = 200, height = 340, bg = 'white')
@@ -94,14 +128,6 @@ subMenuFrame.place(x = 20, y = 240)
 #Vista
 viewFrame = tk.Frame(mainWindow, width = 540, height = 560, bg = 'white')
 viewFrame.place(x = 240, y = 20)
-
-#Opciones de usuario
-buttonData = tk.Button(mainWindow, text="Ingreso datos", width=15,
-                   command=matrixDataControlller).place(x=30, y=20)
-buttonMatrix = tk.Button(mainWindow, text="Matriz de Caminos ", width=15,
-                   command=matrixDataControlller).place(x=30, y=40)
-buttonComponentesConexas = tk.Button(mainWindow, text="Componentes Conexas", width=15,
-                   command=matrixDataControlller).place(x=30, y=70)
 
 #Ejecucion applicacion
 mainWindow.mainloop()

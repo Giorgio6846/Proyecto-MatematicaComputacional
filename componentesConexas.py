@@ -1,7 +1,13 @@
 import tkinter as tk
 
-def showComponentesConexas(WindowFrame):
-    print()
+class componentesConexas:
+    global mainWindow
 
-def hideComponentesConexas(WindowsFrame):
-    print()
+    def __init__(self, WindowFrame):
+        mainWindow = WindowFrame
+
+    #def show():
+    #    print()
+
+    #def hide():
+    #    print()
