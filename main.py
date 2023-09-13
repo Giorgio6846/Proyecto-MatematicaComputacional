@@ -1,52 +1,138 @@
 import tkinter as tk 
 
-#Creacion del frame
-global mainWindow
+#Archivos adicionales
+import caminosMatriz as cm 
+import componentesConexas as cc
+import dataInputv2 as dt
 
-#Inicio applicacion
+global App
+App = tk.Tk()
+
+#Classes
+matrizCamino = cm.matrizCaminos(App)
+componenteConexa = cc.componentesConexas(App)
+dataInput = dt.dataInput(App)
+
+#Configuuracion de la ventana
+App.title('Proyecto - Matematica Computacional - ( 2023 - 2 ) - Grupo 5 - Seccion SS41')
+App.geometry("800x600")
+App.resizable(False, False)
+App.config(background = 'grey')   
+
+#Interface
+
+#Ingreso datos
+def dataInputInterface():
+    matrizCamino.hide()
+    componenteConexa.hide()
+    dataInput.show()
+
+#Matriz de Caminos
+def matrizCaminosInterface():
+    matrizCamino.show()
+    componenteConexa.hide()
+    dataInput.hide()
+
+#Componentes Conexas
+def componentesConexasInterface():
+    matrizCamino.hide()
+    componenteConexa.show()
+    dataInput.hide()
+
+#Frames
+#Menu
+menuFrame = tk.Frame(App, width=200, height=200, bg='white')
+menuFrame.place(x=20, y=20)
+
+#Opciones de usuario
+buttonData = tk.Button(App, text="Ingreso datos", width=15,
+                       command=dataInputInterface).place(x=30, y=40)
+buttonMatrix = tk.Button(App, text="Matriz de Caminos ", width=15,
+                        command=matrizCaminosInterface).place(x=30, y=40 + 30)
+buttonComponentesConexas = tk.Button(App, text="Componentes Conexas", width=15,
+                        command=componentesConexasInterface).place(x=30, y=40 + 60)
+
+#SubMenu
+subMenuFrame = tk.Frame(App, width = 200, height = 340, bg = 'white')
+subMenuFrame.place(x = 20, y = 240)
+
+#Vista
+viewFrame = tk.Frame(App, width = 540, height = 560, bg = 'white')
+viewFrame.place(x = 240, y = 20)
+
+
+
+App.mainloop()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+#Creacion del frame 
+global mainWindow
 mainWindow = tk.Tk()
 
-#Configuracion
+#Variables Interfaz
+#MatrixData
+global matrixData
+matrixData = []
+
+#EntriesMatrix
+global entriesMatrix
+entriesMatrix = []
+
+#Classes
+matrizCamino = cm.matrizCaminos(mainWindow)
+componenteConexa = cc.componentesConexas(mainWindow)
+dataInput = dt.dataInput(mainWindow)
+
+#Configuracion del app
 mainWindow.title('Proyecto - Matematica Computacional - ( 2023 - 2 ) - Grupo 5 - Seccion SS41')
 mainWindow.geometry("800x600")
 mainWindow.resizable(False, False)
+mainWindow.config(background = 'grey')
 
-#Inicializacion de la variable sizeMatrix
+#Variables
+#sizeMatrix
 sizeMatrix = tk.StringVar()
 sizeMatrix.set("0")
-
-#Informacion acerca del labelMatrix
+#labelMatrix
 infMatrix = tk.StringVar()
 infMatrix.set("Ingrese la informacion de la matriz")
+#OpcionIngreso
+typeEntry = tk.StringVar()
 
-#Informacion matriz
-global matrixData
-global entriesMatrix
+def verificacionSizeMatrix():
+    # Output Data
+    # 0 El entry tiene 0
+    # 1 El entry tiene un dato no valido 
+    # 2 El entry tiene un dato valido
 
-matrixData = []
-entriesMatrix = []
-
-def checkEntrySize():
-    #Return
-    # 0 Inicializacion
-    # 1 Invalid Int
-    # 2 True
-        
-    print(sizeMatrix.get())
     sizeMatrixData = sizeMatrix.get()
     sizeMatrixData = sizeMatrixData.replace(" ", "")
-
-    print(type(sizeMatrixData))
 
     if not str(sizeMatrixData).isdigit():
         infMatrix.set("El valor de la matriz ingresada no es valida. Ingrese el valor entre 5 a 15")
         return 1
-
-    if int(sizeMatrixData) == 0:
+    
+    sizeMatrixData = int(sizeMatrixData)
+    if sizeMatrixData == 0:
         infMatrix.set("El valor de la matriz ingresada no es valida. Ingrese el valor entre 5 a 15")
         return 0
 
-    sizeMatrixData = int(sizeMatrixData)
     if not (sizeMatrixData >= 5 and sizeMatrixData <= 15):
         infMatrix.set("El valor de la matriz ingresada no es valida. Ingrese el valor entre 5 a 15")
         return 1
@@ -54,59 +140,71 @@ def checkEntrySize():
     infMatrix.set("El valor de la matriz exitoso")
     return 2
 
-
-
-def checkMatrix():
-    if checkEntrySize() == 2:
-        #if len(matrixData) != 0:
-        #    deleteMatrix()
-        genMatrix(int(sizeMatrix.get()))
-
-def genMatrix():
-    posX = 100
-    posY = 100
+#GenMatrix
+def matrixDataControlller():
+    if len(matrixData) == 0:
+        dt.generateMatrix(mainWindow,
+                      matrixData, entriesMatrix)
     
-    for indexRow in range(15):
-        matrixData.append([])
-        entriesMatrix.append([])
-        for indexColumn in range(15):
-            matrixData[indexRow].append(tk.StringVar())
-            entriesMatrix[indexRow].append(tk.Entry(mainWindow, textvariable= matrixData[indexRow][indexColumn], width = 2))
-            entriesMatrix[indexRow][indexColumn].place(x = posX + indexColumn * 20, y = posY + indexRow * 20)
+    if verificacionSizeMatrix() == 2:
+        dt.hideMatrix(mainWindow,
+                      matrixData, entriesMatrix)
+        dt.showMatrix(int(sizeMatrix.get()), mainWindow,
+                      matrixData, entriesMatrix)
 
-def showMatrix(sizeMatrix):
-    posX = 100
-    posY = 100
-    
-    for indexRow in range(sizeMatrix):
-        for indexColumn in range(sizeMatrix):
-            entriesMatrix[indexRow][indexColumn].place(x = posX + indexColumn * 20, y = posY + indexRow * 20)
-    
-#Max size 15x15
-def hideMatrix():
-    for indexRow in range(15):
-        for indexColumn in range(15):
-            entriesMatrix[indexRow][indexColumn].place_forget()        
+#Ingreso datos tamaño matriz
+#tk.Label(mainWindow, text = "Tamaño de la matriz:").place(x = 10, y = 10)
+#sizeMatrixEntry = tk.Entry(mainWindow, textvariable = sizeMatrix).place(x = 10, y = 40)
+
+#Informacion del dato ingresado
+#tk.Label(mainWindow, text = "Status").place(x = 0, y = 80)
+
+#tk.Label(mainWindow, text = "Ingrese la informacion de la matriz", textvariable = infMatrix).place(x = 0, y = 100)
                     
-#Tamaño matriz
-tk.Label(mainWindow, text = "Size of Matrix: ").place(x = 0, y = 0)
-sizeMatrixEntry = tk.Entry(mainWindow, textvariable = sizeMatrix).place(x = 90, y = 0)
-button = tk.Button(mainWindow, text="Generate Matrix",
-                   width=15, command=checkMatrix).place(x=220, y=0)
+#button = tk.Button(mainWindow, text="Generate Matrix", width=15,
+#                   command=matrixDataControlller).place(x=260, y= 0)
 
-button1 = tk.Button(mainWindow, text="Generate Matrix",
-                    width=15, command=genMatrix).place(x=220, y=40)
+#Interface
+#Ingreso datos
+def dataInputInterface():
+    #matrizCamino.hide
+    #componenteConexa.hide
 
-button1 = tk.Button(mainWindow, text="Generate Matrix",
-                   width=15, command=hideMatrix).place(x=220, y=60)
+    dataInput.show(sizeMatrix, infMatrix)
 
+#Matriz de Caminos
+def matrizCaminosInterface():
+    matrizCamino.show
+    componenteConexa.hide
+    dataInput.hide
 
-tk.Label(mainWindow, text = "Ingrese la informacion de la matriz", textvariable = infMatrix).place(x = 0, y = 25)
+#Componentes Conexas
+def componentesConexasInterface():
+    matrizCamino.hide
+    componenteConexa.show
+    dataInput.hide
 
+#Frames
+#Menu
+menuFrame = tk.Frame(mainWindow, width = 200, height = 200, bg = 'white')
+menuFrame.place(x = 20, y = 20)
 
+#Opciones de usuario
+buttonData = tk.Button(mainWindow, text="Ingreso datos", width=15,
+                   command=dataInputInterface).place(x=30, y=40)
+buttonMatrix = tk.Button(mainWindow, text="Matriz de Caminos ", width=15,
+                   command=matrizCaminosInterface).place(x=30, y=40 + 30)
+buttonComponentesConexas = tk.Button(mainWindow, text="Componentes Conexas", width=15,
+                   command=componentesConexasInterface).place(x=30, y=40 + 60)
 
-#Configurar los tamaños de la pantalla
-#mainWindow.rowconfigure(0, weight = 1)
+#SubMenu
+subMenuFrame = tk.Frame(mainWindow, width = 200, height = 340, bg = 'white')
+subMenuFrame.place(x = 20, y = 240)
+
+#Vista
+viewFrame = tk.Frame(mainWindow, width = 540, height = 560, bg = 'white')
+viewFrame.place(x = 240, y = 20)
 
 #Ejecucion applicacion
 mainWindow.mainloop()
+"""
