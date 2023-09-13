@@ -45,20 +45,27 @@ class App:
    
     #Ingreso datos
     def dataInputInterface(self):
-        #self.matrizCaminosInterface.hide(self)
-        #self.componentesConexasInterface.hide(self)
+        self.interfazMatrizCaminos.hide()
+        self.interfazComponentesConexas.hide()
         self.interfazEntradaDatos.show()
 
     #Matriz de Caminos
     def matrizCaminosInterface(self):
-        #self.matrizCaminosInterface.show(self)
-        #self.componentesConexasInterface.hide(self)
+        if self.interfazEntradaDatos.getVerificacion():
+            arrayTMP = self.interfazEntradaDatos.getMatriz()
+            sizeMatrix = self.interfazEntradaDatos.getSizeMatrix()
+            print(arrayTMP)
+            print(sizeMatrix)
+            self.interfazMatrizCaminos.setMatrix(arrayTMP, sizeMatrix)
+            self.interfazMatrizCaminos.show()        
+
+        self.interfazComponentesConexas.hide()
         self.interfazEntradaDatos.hide()
 
     #Componentes Conexas
     def componentesConexasInterface(self):
-        #self.matrizCaminosInterface.hide(self)
-        #self.componentesConexasInterface.show(self)
+        self.interfazMatrizCaminos.hide()
+        self.interfazComponentesConexas.show()
         self.interfazEntradaDatos.hide()
 
 root = tk.Tk()
