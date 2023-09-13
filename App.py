@@ -3,7 +3,7 @@ import tkinter as tk
 #Archivos adicionales
 import caminosMatriz as cm
 import componentesConexas as cc
-import dataInputv2 as dt
+import dataInput as dt
 
 class App:
           
