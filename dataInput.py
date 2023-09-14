@@ -33,14 +33,15 @@ class dataInput:
         
         #Tamaño matriz
         #Label
-        self.sizeMatrixLabel = tk.Label(self.Screen, text="Tamaño de la matriz:")
+        self.sizeMatrixLabel = tk.Label(
+            self.Screen, text="Tamaño de la matriz:", font=("Arial", 12))
         #Entry
         self.sizeMatrixEntry = tk.Entry(self.Screen, textvariable=(self.sizeMatrix))
         
         #Status matriz
         #Label
-        self.statusMatrix = tk.Label(self.Screen, text = "Status: ")
-        self.statusModMatrix = tk.Label(self.Screen, text = "Ingrese la informacion de la matriz", textvariable = self.informacionMatriz)
+        self.statusMatrix = tk.Label(self.Screen, text = "Status: ",font = ("Arial", 12))
+        self.statusModMatrix = tk.Label(self.Screen, text = "Ingrese la informacion de la matriz", textvariable = self.informacionMatriz, font = ("Arial", 12))
 
         #Generar matriz
         #Button
@@ -90,10 +91,13 @@ class dataInput:
         posX = 240
         posY = 40
 
+        sizeEntry = 30
+
         #Mostrar matriz a base de la posicion
         for indexRow in range(int(self.sizeMatrix.get())):
             for indexColumn in range(int(self.sizeMatrix.get())):
-                self.entriesMatrix[indexRow][indexColumn].place(x=posX + indexColumn * 20, y=posY + indexRow * 20)
+                self.entriesMatrix[indexRow][indexColumn].place(
+                    x=posX + indexColumn * (sizeEntry + 1), y=posY + indexRow * (sizeEntry + 1), height=sizeEntry, width=sizeEntry)
                 self.dataMatrix[indexRow][indexColumn].set(0)
 
         #Opcion de entrada
@@ -127,7 +131,6 @@ class dataInput:
                     tk.Entry(self.Screen, textvariable=self.dataMatrix[indexRow][indexColumn], width=2))
                 self.entriesMatrix[indexRow][indexColumn].place(
                     x=posX + indexColumn * 20, y=posY + indexRow * 20)
-
     
     def show(self):
         #Status matrix
@@ -204,18 +207,18 @@ class dataInput:
 
         if not str(sizeMatrixData).isdigit():
             self.informacionMatriz.set(
-                "El valor de la matriz ingresada no es valida. Ingrese el valor entre 5 a 15")
+                "El valor de la matriz ingresada no es valida.\n Ingrese el valor entre 5 a 15")
             return 1
 
         sizeMatrixData = int(sizeMatrixData)
         if sizeMatrixData == 0:
             self.informacionMatriz.set(
-                "El valor de la matriz ingresada no es valida. Ingrese el valor entre 5 a 15")
+                "El valor de la matriz ingresada no es valida.\n Ingrese el valor entre 5 a 15")
             return 0
 
         if not (sizeMatrixData >= 5 and sizeMatrixData <= 15):
             self.informacionMatriz.set(
-                "El valor de la matriz ingresada no es valida. Ingrese el valor entre 5 a 15")
+                "El valor de la matriz ingresada no es valida.\n Ingrese el valor entre 5 a 15")
             return 1
 
         self.informacionMatriz.set("El valor de la matriz exitoso")

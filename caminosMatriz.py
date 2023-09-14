@@ -21,6 +21,8 @@ class matrizCaminos:
 
         self.data = []
 
+        self.checkCaminos = False
+
         #Pasos de la matriz de caminos
         self.matrizCaminos = []
         
@@ -42,6 +44,7 @@ class matrizCaminos:
         self.sizeMatrix = 0
         self.matrizCaminos = []
         self.data = []
+        self.checkCaminos = False
                 
     def setMatrix(self, matrix, size):
         #Define los datos obtenidos de Data Input
@@ -49,9 +52,6 @@ class matrizCaminos:
         self.matrix = matrix
         #Tamaño matriz
         self.sizeMatrix = size
-
-        #Copia la matrizOriginal a los pasos de matriz de caminos
-        #self.copyMatrix(matrix)
         
         #Agrega a la lista la cantidad de pasos basado en el tamaño de matriz
         for index in range(int(self.sizeMatrix + 1)):
@@ -120,23 +120,48 @@ class matrizCaminos:
     def addDatafromRow(self, Row, tempRow):
         #Agrega datos a la fila basado en el linea selecionada
         if(len(Row) == len(tempRow)):
-            for Column in range(1, len(Row)):
+            for Column in range(len(Row)):
                 if(tempRow[Column] == 1):
                     Row[Column] = tempRow[Column]
 
+
+
     def walkMatrix(self):
         #Realiza la matriz de caminos
+        self.copyMatrix(self.matrix)
+        
+        for index in range(len(self.matrix)):
+            self.matrix[index][index] = 1
+        
         for Row in range(len(self.matrix)):
+            while True:
+                tmpRow = self.copyRow(self.matrix[Row])
+                self.RowSelected(Row)
+                if self.verifyRow(tmpRow, self.matrix[Row]):
+                    break
+                          
             self.copyMatrix(self.matrix)
-            tmpRow = self.matrix[Row]
-            for tempCol in range(len(self.matrix)):
-                if tmpRow[tempCol] == 1:
-                    self.addDatafromRow(self.matrix[Row], self.matrix[tempCol])
-            for tempCol in range(len(self.matrix)):
-                if tmpRow[tempCol] == 1:
-                    self.addDatafromRow(self.matrix[Row], self.matrix[tempCol])
+        self.checkCaminos = True
 
-        print(self.matrix)
+    def RowSelected(self, Row):
+        tmpRow = self.matrix[Row]
+        for tmpCol in range(len(self.matrix)):
+            if tmpRow[tmpCol] == 1:
+                self.addDatafromRow(self.matrix[Row], self.matrix[tmpCol])        
+
+    def verifyRow(self, orRow, rowMod):
+        for index in range(len(orRow)):
+            if orRow[index] != rowMod[index]:
+                return False
+            return True        
+
+    def copyRow(self, matrixRow):
+        rowTMP = np.array([0 for x in range(len(matrixRow))])
+        
+        for index in range(len(matrixRow)):
+            rowTMP[index] = matrixRow[index]
+            
+        return rowTMP        
 
     def copyMatrix(self, matrix):
         #Copia la matriz a matriz de caminos para mostralo por pasos
@@ -154,4 +179,13 @@ class matrizCaminos:
         optionSelected = self.listBoxMatrizCaminosPasos.curselection()
         
         self.hideMatrix()
-        self.showMatrix(optionSelected[0] - 1)
+        self.showMatrix(optionSelected[0])
+        
+    def getMatrix(self):
+        return self.matrix
+    
+    def getSizeMatrix(self):
+        return self.sizeMatrix
+    
+    def getCheck(self):
+        return self.checkCaminos
