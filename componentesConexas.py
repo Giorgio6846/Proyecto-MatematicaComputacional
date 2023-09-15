@@ -19,8 +19,25 @@ class componentesConexas:
         #Data Matrix
         self.dataMatrix = []
 
+        self.listComponentesConexas = []
+
         self.genMatrix()
         self.hideMatrix()
+    
+    def reinicioVariables(self):
+
+
+        #Variables
+        #Data Matrix
+        for indexRow in range(self.sizeMatrix):
+            for indexColumn in range(self.sizeMatrix):
+                self.dataMatrix[indexRow][indexColumn].set(0)
+        #Datos Matriz
+        self.matrix = np.array([])
+        #Tamaño Matriz
+        self.sizeMatrix = 0        
+
+        self.listComponentesConexas = []
         
     def show(self):
         self.showMatrix()
@@ -29,6 +46,8 @@ class componentesConexas:
         self.hideMatrix()
 
     def setMatrix(self, matrix, size):
+        self.reinicioVariables()
+
         #Define los datos obtenidos de Data Input
         #Matriz
         matrixTMP = matrix
@@ -48,6 +67,7 @@ class componentesConexas:
         self.sortMaxtoMin()
         self.sortColumn()
         
+        self.detectComponentesConexas()
         
     def showMatrix(self):
         #Muestra la matriz
@@ -125,4 +145,58 @@ class componentesConexas:
             self.matrix[row][col1] = self.matrix[row][col2]
             self.matrix[row][col2] = cellTMP
 
-    
+    def detectComponentesConexas(self):
+            startValue = 0
+            listTMP = []
+            
+            for index in range(1,len(self.matrix)):
+                if startValue == 0:
+                    startValue = index
+                    listTMP.append(self.matrix[index][0])
+                else:
+                    if self.verifySquare1(startValue,index):
+                        print(index, "1a", self.matrix[index][0])
+
+
+                        listTMP.append(self.matrix[index][0])
+
+                        pass
+                    elif startValue == index - 1:
+                        print(index, "2a",self.matrix[index][0])
+                        print(listTMP)
+
+                        self.listComponentesConexas.append(listTMP)
+                        listTMP = []                    
+                        
+                        listTMP.append(self.matrix[index][0])
+
+                        startValue = index
+                    else:
+                        print(index, "3a", self.matrix[index][0])
+                        print(listTMP)
+                        
+                        self.listComponentesConexas.append(listTMP)
+                        listTMP = []
+
+                        listTMP.append(self.matrix[index][0])
+                        startValue = index
+
+
+            if int((self.listComponentesConexas[len(self.listComponentesConexas) - 1]
+                                        [len(self.listComponentesConexas[len(self.listComponentesConexas) - 1]) - 1])) != int(self.matrix[len(self.matrix) - 1][0]):
+                listTMP = []
+                listTMP.append(self.matrix[len(self.matrix) - 1][0])
+
+                print(listTMP)
+                self.listComponentesConexas.append(listTMP)
+                listTMP = []                
+
+    def verifySquare1(self,indexStart, indexEnd):
+        squareValid = True
+        for indexRow in range(indexStart, indexEnd + 1):
+            for indexColumn in range(indexStart, indexEnd + 1):
+                if self.matrix[indexRow][indexColumn] == 0:
+                    squareValid = False
+                    break
+
+        return squareValid
