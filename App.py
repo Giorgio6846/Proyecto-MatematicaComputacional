@@ -32,12 +32,12 @@ class App:
         viewFrame.place(x = 240, y = 20)
         
         #Opciones de usuario
-        buttonData = tk.Button(self.master, text="Ingreso datos", width=15,
-                               command=self.dataInputInterface).place(x=30, y=40)
-        buttonMatrix = tk.Button(self.master, text="Matriz de Caminos ", width=15,
-                                command=self.matrizCaminosInterface).place(x=30, y=40 + 30)
-        buttonComponentesConexas = tk.Button(self.master, text="Componentes Conexas", width=15,
-                                command=self.componentesConexasInterface).place(x=30, y=40 + 60)
+        buttonData = tk.Button(self.master, text="Ingreso datos", width=25,
+                               command=self.dataInputInterface).place(x=25, y=40)
+        buttonMatrix = tk.Button(self.master, text="Matriz de Caminos ", width=25,
+                                command=self.matrizCaminosInterface).place(x=25, y=40 + 30)
+        buttonComponentesConexas = tk.Button(self.master, text="Componentes Conexas", width=25,
+                                command=self.componentesConexasInterface).place(x=25, y=40 + 60)
     
         self.interfazEntradaDatos = dt.dataInput(self.master)
         self.interfazComponentesConexas = cc.componentesConexas(self.master)
@@ -64,8 +64,17 @@ class App:
 
     #Componentes Conexas
     def componentesConexasInterface(self):
+        if self.interfazMatrizCaminos.getCheck():
+            arrayTMP = self.interfazMatrizCaminos.getMatrix()
+            sizeMatrix = self.interfazMatrizCaminos.getSizeMatrix()
+
+            print(arrayTMP)
+            print(sizeMatrix)
+             
+            self.interfazComponentesConexas.setMatrix(arrayTMP, sizeMatrix)
+            self.interfazComponentesConexas.show()
+             
         self.interfazMatrizCaminos.hide()
-        self.interfazComponentesConexas.show()
         self.interfazEntradaDatos.hide()
 
 root = tk.Tk()
