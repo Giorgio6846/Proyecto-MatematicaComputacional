@@ -4,9 +4,9 @@ import tkinter as tk
 import caminosMatriz as cm
 import componentesConexas as cc
 import dataInput as dt
+import platform
 
 class App:
-          
     def __init__(self, master):
         self.master = master
         
@@ -31,17 +31,27 @@ class App:
         viewFrame = tk.Frame(self.master, width=540, height=560, bg='white')
         viewFrame.place(x = 240, y = 20)
         
+        if platform.system() == 'Windows':
+            widthButton = 25
+        elif platform.system() == 'Darwin':
+            widthButton = 17
+
         #Opciones de usuario
-        buttonData = tk.Button(self.master, text="Ingreso datos", width=25,
-                               command=self.dataInputInterface).place(x=25, y=40)
-        buttonMatrix = tk.Button(self.master, text="Matriz de Caminos ", width=25,
-                                command=self.matrizCaminosInterface).place(x=25, y=40 + 30)
-        buttonComponentesConexas = tk.Button(self.master, text="Componentes Conexas", width=25,
-                                command=self.componentesConexasInterface).place(x=25, y=40 + 60)
-    
-        self.interfazEntradaDatos = dt.dataInput(self.master)
-        self.interfazComponentesConexas = cc.componentesConexas(self.master)
-        self.interfazMatrizCaminos = cm.matrizCaminos(self.master)
+        buttonData = tk.Button(self.master, text="Ingreso datos", width=widthButton,
+                                command=self.dataInputInterface).place(x=25, y=40)
+        buttonMatrix = tk.Button(self.master, text="Matriz de Caminos ", width=widthButton,
+                                    command=self.matrizCaminosInterface).place(x=25, y=40 + 30)
+        buttonComponentesConexas = tk.Button(self.master, text="Componentes Conexas", width=widthButton,
+                                                command=self.componentesConexasInterface).place(x=25, y=40 + 60)
+
+
+        self.dataApp = Data()
+
+        self.interfazEntradaDatos = dt.dataInput(self.master,self.dataApp)
+        self.interfazComponentesConexas = cc.componentesConexas(self.master,self.dataApp)
+        self.interfazMatrizCaminos = cm.matrizCaminos(
+            self.master, self.dataApp)
+   
    
     #Ingreso datos
     def dataInputInterface(self):
@@ -49,14 +59,18 @@ class App:
         self.interfazComponentesConexas.hide()
         self.interfazEntradaDatos.show()
 
+    def testDataApp(self):
+        print(self.dataApp.getMatriz())
+        print(self.dataApp.getMatrizCaminos())
+        print(self.dataApp.getSizeMatrix())
+
     #Matriz de Caminos
     def matrizCaminosInterface(self):
         if self.interfazEntradaDatos.getVerificacion():
-            arrayTMP = self.interfazEntradaDatos.getMatriz()
-            sizeMatrix = self.interfazEntradaDatos.getSizeMatrix()
-            print(arrayTMP)
-            print(sizeMatrix)
-            self.interfazMatrizCaminos.setMatrix(arrayTMP, sizeMatrix)
+            self.interfazEntradaDatos.getSizeMatrix()
+            self.interfazEntradaDatos.getMatrix()
+            
+            self.testDataApp()
             self.interfazMatrizCaminos.show()        
 
         self.interfazComponentesConexas.hide()
@@ -65,18 +79,45 @@ class App:
     #Componentes Conexas
     def componentesConexasInterface(self):
         if self.interfazMatrizCaminos.getCheck():
-            arrayTMP = self.interfazMatrizCaminos.getMatrix()
-            sizeMatrix = self.interfazMatrizCaminos.getSizeMatrix()
-
-            print(arrayTMP)
-            print(sizeMatrix)
+            self.interfazMatrizCaminos.getMatriz()
              
-            self.interfazComponentesConexas.setMatrix(arrayTMP, sizeMatrix)
+            self.testDataApp()
+            self.interfazMatrizCaminos.clearCheckbox()
             self.interfazComponentesConexas.show()
              
         self.interfazMatrizCaminos.hide()
         self.interfazEntradaDatos.hide()
 
+class Data:
+    def __init__(self):
+        self.matriz = []
+        self.matrizCaminos = []
+        self.sizeMatrix = 0
+    
+    def setSizeMatrix(self, size):
+        self.sizeMatrix = size
+    
+    def setMatrix(self,matrix):
+        print(matrix)
+        self.matriz = matrix
+        
+    def setMatrizCaminos(self,matrizCaminos):
+        self.matrizCaminos = matrizCaminos
+        
+    def getSizeMatrix(self):
+        return self.sizeMatrix
+
+    def getMatriz(self):
+        return self.matriz
+    
+    def getMatrizCaminos(self):
+        return self.matrizCaminos
+    
+    def clearData(self):
+        self.matrix = []
+        self.matrizCaminos = []
+        self.sizeMatrix = 0
+    
 root = tk.Tk()
 app = App(root)
 root.mainloop()

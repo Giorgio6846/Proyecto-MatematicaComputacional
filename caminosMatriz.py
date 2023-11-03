@@ -4,7 +4,8 @@ import numpy as np
 class matrizCaminos:
     global mainWindow
 
-    def __init__(self, Screen):
+    def __init__(self, Screen, AppData):
+        self.claseDatos = AppData
         #Frame tkinter
         self.Screen = Screen
         
@@ -45,13 +46,14 @@ class matrizCaminos:
         self.matrizCaminos = []
         self.data = []
         self.checkCaminos = False
+
                 
-    def setMatrix(self, matrix, size):
+    def setMatrix(self):
         #Define los datos obtenidos de Data Input
         #Matriz
-        self.matrix = matrix
+        self.matrix = self.claseDatos.getMatriz()
         #Tamaño matriz
-        self.sizeMatrix = size
+        self.sizeMatrix = self.claseDatos.getSizeMatrix()
         
         #Agrega a la lista la cantidad de pasos basado en el tamaño de matriz
         for index in range(int(self.sizeMatrix + 1)):
@@ -68,12 +70,14 @@ class matrizCaminos:
         #Muestra la matriz
         #Posicion de la matriz
         posX = 240
-        posY = 40
+        posY = 20
+        distance = 36
 
         #Mostrar matriz a base del paso actual y la posicion elegida
         for indexRow in range(int(self.sizeMatrix)):
             for indexColumn in range(int(self.sizeMatrix)):
-                self.labelMatrix[indexRow][indexColumn].place(x=posX + indexColumn * 20, y=posY + indexRow * 20)
+                self.labelMatrix[indexRow][indexColumn].place(
+                    x=posX + indexColumn * distance, y=posY + indexRow * distance)
                 self.dataMatrix[indexRow][indexColumn].set(self.matrizCaminos[paso][indexRow][indexColumn])
 
     def hideMatrix(self):
@@ -85,8 +89,8 @@ class matrizCaminos:
     def genMatrix(self):
         #Genenra inicialmente la matriz
         #Posicion de la matriz
-        posX = 240
-        posY = 40
+        posX = 242
+        posY = 52
 
         #Genera la matriz para guardarla en las variables
         #DataMatrix --- Datos de la matriz
@@ -97,10 +101,11 @@ class matrizCaminos:
             for indexColumn in range(15):
                 self.dataMatrix[indexRow].append(tk.StringVar())
                 self.labelMatrix[indexRow].append(
-                    tk.Label(self.Screen, textvariable=self.dataMatrix[indexRow][indexColumn], width=2))
+                    tk.Label(self.Screen, textvariable=self.dataMatrix[indexRow][indexColumn], width=2, font=("Arial", 22)))
                 self.labelMatrix[indexRow][indexColumn].place(x=posX + indexColumn * 20, y=posY + indexRow * 20)
 
     def show(self):
+        self.setMatrix()
         #Muestra la matriz en el paso 0
         self.showMatrix(0)
 
@@ -181,11 +186,11 @@ class matrizCaminos:
         self.hideMatrix()
         self.showMatrix(optionSelected[0])
         
-    def getMatrix(self):
-        return self.matrix
-    
-    def getSizeMatrix(self):
-        return self.sizeMatrix
+    def getMatriz(self):
+        self.claseDatos.setMatrizCaminos(self.matrix)
     
     def getCheck(self):
         return self.checkCaminos
+    
+    def clearCheckbox(self):
+        self.listBoxMatrizCaminosPasos.delete(0,tk.END)

@@ -4,7 +4,8 @@ import numpy as np
 class componentesConexas:
     global mainWindow
 
-    def __init__(self, Screen):
+    def __init__(self, Screen,AppData):
+        self.claseDatos = AppData
         #Frame tkinter
         self.Screen = Screen
 
@@ -13,6 +14,10 @@ class componentesConexas:
         self.matrix = np.array([])
         #Tamaño Matriz
         self.sizeMatrix = 0        
+
+        #Status Matriz
+        self.informacionMatriz = tk.StringVar()
+        self.informacionMatriz.set("")
 
         #Label data
         self.labelMatrix = []
@@ -24,9 +29,11 @@ class componentesConexas:
         self.genMatrix()
         self.hideMatrix()
     
+        self.labelComponentesConexas = tk.Label(
+            self.Screen, text="Status: ", textvariable=self.informacionMatriz, font=("Arial", 12))
+
+    
     def reinicioVariables(self):
-
-
         #Variables
         #Data Matrix
         for indexRow in range(self.sizeMatrix):
@@ -40,19 +47,22 @@ class componentesConexas:
         self.listComponentesConexas = []
         
     def show(self):
+        self.setMatrix()
         self.showMatrix()
+        self.labelComponentesConexas.place(x=20, y=240)
 
     def hide(self):
         self.hideMatrix()
+        self.labelComponentesConexas.place_forget()
 
-    def setMatrix(self, matrix, size):
+    def setMatrix(self):
         self.reinicioVariables()
 
         #Define los datos obtenidos de Data Input
         #Matriz
-        matrixTMP = matrix
+        matrixTMP = self.claseDatos.getMatrizCaminos()
         #Tamaño matriz
-        self.sizeMatrix = size
+        self.sizeMatrix = self.claseDatos.getSizeMatrix()
 
         self.matrix = np.array([[matrixTMP[y][x] for x in range(self.sizeMatrix)] for y in range(self.sizeMatrix)])
         print(self.matrix)
@@ -68,12 +78,14 @@ class componentesConexas:
         self.sortColumn()
         
         self.detectComponentesConexas()
-        
+
     def showMatrix(self):
         #Muestra la matriz
         #Posicion de la matriz
         posX = 240
-        posY = 40
+        posY = 20
+        distance = 34
+
 
         #Mostrar matriz a base del paso actual y la posicion elegida
         for indexRow in range(int(self.sizeMatrix) + 1):
@@ -83,7 +95,7 @@ class componentesConexas:
                         fg="#ff0000")
 
                 self.labelMatrix[indexRow][indexColumn].place(
-                    x=posX + indexColumn * 20, y=posY + indexRow * 20)
+                    x=posX + indexColumn * distance, y=posY + indexRow * distance)
                 self.dataMatrix[indexRow][indexColumn].set(
                     self.matrix[indexRow][indexColumn])
 
@@ -108,7 +120,7 @@ class componentesConexas:
             for indexColumn in range(15 + 1):
                 self.dataMatrix[indexRow].append(tk.StringVar())
                 self.labelMatrix[indexRow].append(
-                    tk.Label(self.Screen, textvariable=self.dataMatrix[indexRow][indexColumn], width=2))
+                    tk.Label(self.Screen, textvariable=self.dataMatrix[indexRow][indexColumn], width=2, font=("Arial", 20)))
                 self.labelMatrix[indexRow][indexColumn].place(
                     x=posX + indexColumn * 20, y=posY + indexRow * 20)
 
@@ -189,7 +201,22 @@ class componentesConexas:
 
                 print(listTMP)
                 self.listComponentesConexas.append(listTMP)
-                listTMP = []                
+                listTMP = []  
+            print(self.listComponentesConexas)
+
+            stringTMP = ""
+            self.informacionMatriz.set(stringTMP)
+
+            for index in range(len(self.listComponentesConexas)):
+                stringTMP = stringTMP + "["
+                for indexList in range(len(self.listComponentesConexas[index])):
+                    stringTMP = stringTMP + " " + \
+                        str(self.listComponentesConexas[index]
+                            [indexList]) + " "
+                stringTMP = stringTMP + "]" + "\n"
+
+            print(stringTMP)
+            self.informacionMatriz.set(stringTMP)
 
     def verifySquare1(self,indexStart, indexEnd):
         squareValid = True

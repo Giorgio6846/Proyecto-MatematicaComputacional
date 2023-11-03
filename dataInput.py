@@ -4,7 +4,9 @@ import random
 
 class dataInput:
 
-    def __init__(self, Screen):
+    def __init__(self, Screen, AppData):
+        self.claseDatos = AppData
+        
         #Frame tkinter
         self.Screen = Screen
        
@@ -89,9 +91,9 @@ class dataInput:
         #Muestra la matriz
         #Posicion de la matriz
         posX = 240
-        posY = 40
+        posY = 20
 
-        sizeEntry = 30
+        sizeEntry = 35
 
         #Mostrar matriz a base de la posicion
         for indexRow in range(int(self.sizeMatrix.get())):
@@ -117,7 +119,7 @@ class dataInput:
         #Genenra inicialmente la matriz
         #Posicion de la matriz
         posX = 240
-        posY = 40
+        posY = 20
 
         #Genera la matriz para guardarla en las variables
         #DataMatrix --- Datos de la matriz
@@ -146,7 +148,7 @@ class dataInput:
 
         #Generar Matriz
         #Button
-        self.buttonGenerarMatriz.place(x = 20, y = 340)
+        self.buttonGenerarMatriz.place(x = 20, y = 350)
 
         self.buttonReiniciarMatriz.place(x = 20, y = 500)
 
@@ -283,20 +285,23 @@ class dataInput:
         #Modo debug
         print(self.arrayFinal)
     
-    def getMatriz(self):
+    def getMatrix(self):
         #Retorna la matriz para que la clase tenga acceso
-        self.arrayTMP = np.array([[0 for x in range(int(self.sizeMatrix.get()))]
+        arrayTMP = np.array([[0 for x in range(int(self.sizeMatrix.get()))]
                                  for y in range(int(self.sizeMatrix.get()))])
 
         for indexRow in range(int(self.sizeMatrix.get())):
             for indexColumn in range(int(self.sizeMatrix.get())):
-                self.arrayTMP[indexRow][indexColumn] = self.arrayFinal[indexRow][indexColumn]
+                arrayTMP[indexRow][indexColumn] = self.arrayFinal[indexRow][indexColumn]
         
-        return self.arrayTMP
-    
+        print("TEST")
+        print(arrayTMP)
+        self.claseDatos.setMatrix(arrayTMP)
+        print(self.claseDatos.getMatriz())
+        
     def getSizeMatrix(self):
         #Retorna el tamaño de la matriz
-        return int(self.sizeMatrix.get())
+        self.claseDatos.setSizeMatrix(int(self.sizeMatrix.get()))
     
     def getVerificacion(self):
         #Retorna la verificacion de la matriz
